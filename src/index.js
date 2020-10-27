@@ -49,7 +49,7 @@ app.get("/user/:id", async (request, response) => {
     });
 
     return response.status(200).send({
-      user
+      data: user
     });
   } catch (e) {
     console.error(e);
