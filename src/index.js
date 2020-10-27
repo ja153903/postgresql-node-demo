@@ -1,4 +1,4 @@
-import Express from 'express';
+import Express, { response } from 'express';
 import bodyParser from 'body-parser';
 
 import { User } from './models';
@@ -18,6 +18,38 @@ app.post("/user/create", async (request, response) => {
 
     return response.status(200).send({
       id: newUser.id
+    });
+  } catch (e) {
+    console.error(e);
+    return response.status(500).send();
+  }
+});
+
+app.get("/user", async (_request, response) => {
+  try {
+    const users = await User.findAll();
+
+    return response.status(200).send({
+      data: users
+    });
+  } catch (e) {
+    console.error(e);
+    return response.status(500).send();
+  }
+});
+
+app.get("/user/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const user = await User.findOne({
+      where: {
+        id
+      }
+    });
+
+    return response.status(200).send({
+      user
     });
   } catch (e) {
     console.error(e);
